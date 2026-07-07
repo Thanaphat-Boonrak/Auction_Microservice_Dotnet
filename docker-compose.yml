@@ -1,0 +1,180 @@
+services:
+  postgres:
+    image: postgres:latest
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_DB=auction_db
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql
+  mongodb:
+    image: mongo
+    healthcheck:
+      test: [ "CMD", "mongosh", "--quiet", "--eval", "db.runCommand('ping').ok" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_running" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 5672:5672
+      - 15672:15672
+  
+  auction-service:
+    image: thanaphat2005/auction-service:latest
+    ports:
+      - 7001:80
+      - 7777:7777
+    build:
+      context: .
+      dockerfile: src/AuctionService/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:80;http://+:7777
+      - RabbitMQ__Host=rabbitmq
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=auctions;Username=postgres;Password=postgrespw
+      - IdentityServiceUrl=http://identity-service
+      - Kestrel__Endpoints__Grpc__Protocols=Http2
+      - Kestrel__Endpoints__Grpc__Url=http://+:7777
+      - Kestrel__Endpoints__WebApi__Protocols=Http1
+      - Kestrel__Endpoints__WebApi__Url=http://+:80
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+  
+  search-service:
+    image: thanaphat2005/search-service:latest
+    ports:
+      - 7002:80
+    build:
+      context: .
+      dockerfile: src/SearchService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMQ__Host=rabbitmq
+      - ConnectionStrings__MongoDbConnection=mongodb://root:root@mongodb
+      - AuctionServiceUrl=http://auction-service
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+  
+  
+  identity-service:
+    image: thanaphat2005/identity-service:latest
+    build:
+      context: .
+      dockerfile: src/IdentityService/Dockerfile
+    environment:
+      - VIRTUAL_HOST=id.thanaphat2005.local
+      - ClientApp=https://app.thanaphat2005.local
+      - IssuerUri=https://id.thanaphat2005.local
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=AspIdUsers.db;Username=postgres;Password=postgrespw
+    depends_on:
+      postgres:
+        condition: service_healthy
+  
+  
+  bids-service:
+    image: thanaphat2005/bids-service:latest
+    ports:
+      - 7003:80
+    build:
+      context: .
+      dockerfile: src/BiddingService/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMQ__Host=rabbitmq
+      - ConnectionStrings__BidDbConnection=mongodb://root:root@mongodb
+      - GrpcAuction=http://auction-service:7777
+      - IdentityServiceUrl=http://identity-service
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+
+  gateway-service:
+    image: thanaphat2005/gateway-service:latest
+    build:
+      context: .
+      dockerfile: src/GatewayService/Dockerfile
+    environment:
+      - ClientApp=https://app.thanaphat2005.local
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80
+      - VIRTUAL_HOST=api.thanaphat2005.local
+    ports:
+      - 6001:80
+  
+  notification-service:
+    image: thanaphat2005/notification-service:latest
+    ports:
+      - 7004:80
+    build:
+      context: .
+      dockerfile: src/NotificationService/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMQ__Host=rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    
+  web-app:
+    image: thanaphat2005/web-app:latest
+    build:
+      context: ./frontend/web-app
+      dockerfile: Dockerfile
+    volumes:
+      - /var/lib/web/data
+    ports:
+        - 3000:3000
+    environment:
+      - AUTH_SECRET=b54e174aab6b72317fde4a2e24841d2e6c0bad09d3da8b46b860ccefa2a97e91
+      - API_URL=http://gateway-service/
+      - ID_URL_INTERNAL=http://identity-service
+      - ID_URL=https://id.thanaphat2005.local
+      - AUTH_URL=https://app.thanaphat2005.local
+      - AUTH_URL_INTERNAL=http://web-app:3000
+      - VIRTUAL_HOST=app.thanaphat2005.local
+      - VIRTUAL_PORT=3000
+    
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx_proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+        - ./devcerts:/etc/nginx/certs
+volumes:
+  pgdata:
+  mongodata:

@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AuctionService/AuctionService.csproj" />
+    <Project Path="src/BiddingService/BiddingService.csproj" />
+    <Project Path="src/Contracts/Contracts.csproj" />
+    <Project Path="src/GatewayService/GatewayService.csproj" />
+    <Project Path="src/IdentityService/IdentityService.csproj" />
+    <Project Path="src/NotificationService/NotificationService.csproj" />
+    <Project Path="src/SearchService/SearchService.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AuctionService.IntegrationTests/AuctionService.IntegrationTests.csproj" />
+    <Project Path="tests/AuctionService.UnitTests/AuctionService.UnitTests.csproj" />
+  </Folder>
+</Solution>
