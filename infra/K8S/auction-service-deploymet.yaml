@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auction-service-deployment
+  labels:
+    app: auction-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auction-service
+  template:
+    metadata:
+      labels:
+        app: auction-service  
+    spec:
+      containers:
+        - name: auction-service-container
+          image: thanaphat2005/auction-service
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: auction-secret
+                  key: connString
+            - name: RabbitMQ__Password
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-secret
+                  key: password
+            - name: RabbitMQ__Username
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-secret
+                  key: username
+          envFrom:
+            - configMapRef:
+                name: auction-service-config
+          ports:
+            - name: web-api
+              containerPort: 80
+              protocol: TCP
+            - name: grpc
+              containerPort: 7777
+              protocol: TCP 
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auction-service-clusterip
+spec:
+  selector:
+    app: auction-service      
+  ports:
+    - port: 80
+      targetPort: 80
+      name: web
+    - port: 7777
+      targetPort: 7777
+      name: grpc
+  type: ClusterIP

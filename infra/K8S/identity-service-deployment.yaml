@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity-service-deployment
+  labels:
+    app: identity-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identity-service
+  template:
+    metadata:
+      labels:
+        app: identity-service
+    spec:
+      containers:
+        - name: identity-service-container
+          image: thanaphat2005/identity-service
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: identity-secret
+                  key: connString
+          envFrom:
+            - configMapRef:
+                name: identity-service-config
+          ports:
+            - name: web-api
+              containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-service-clusterip
+spec:
+  selector:
+    app: identity-service
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

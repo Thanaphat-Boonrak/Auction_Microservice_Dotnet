@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-service-deployment
+  labels:
+    app: search-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-service
+  template:
+    metadata:
+      labels:
+        app: search-service
+    spec:
+      containers:
+        - name: search-service-container
+          image: thanaphat2005/search-service
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ConnectionStrings__MongoDbConnection
+              valueFrom:
+                secretKeyRef:
+                  name: search-secret
+                  key: connString
+            - name: RabbitMQ__Password
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-secret
+                  key: password
+            - name: RabbitMQ__Username
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-secret
+                  key: username
+          envFrom:
+            - configMapRef:
+                name: search-service-config
+          ports:
+            - name: web-api
+              containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-service-clusterip
+spec:
+  selector:
+    app: search-service
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

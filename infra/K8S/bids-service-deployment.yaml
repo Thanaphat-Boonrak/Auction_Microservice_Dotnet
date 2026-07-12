@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bids-service-deployment
+  labels:
+    app: bids-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bids-service
+  template:
+    metadata:
+      labels:
+        app: bids-service
+    spec:
+      containers:
+        - name: bids-service-container
+          image: thanaphat2005/bids-service
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ConnectionStrings__BidDbConnection
+              valueFrom:
+                secretKeyRef:
+                  name: bid-secret
+                  key: connString
+            - name: RabbitMQ__Password
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-secret
+                  key: password
+            - name: RabbitMQ__Username
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-secret
+                  key: username
+          envFrom:
+            - configMapRef:
+                name: bids-service-config
+          ports:
+            - name: web-api
+              containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bids-service-clusterip
+spec:
+  selector:
+    app: bids-service
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP

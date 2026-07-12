@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service-deployment
+  labels:
+    app: gateway-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-service
+  template:
+    metadata:
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+        - name: gateway-service-container
+          image: thanaphat2005/gateway-service
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: gateway-service-config
+          ports:
+            - name: web-api
+              containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service-clusterip
+spec:
+  selector:
+    app: gateway-service
+  ports:
+    - port: 80
+      targetPort: 80

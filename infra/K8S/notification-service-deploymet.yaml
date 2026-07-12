@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noti-service-deployment
+  labels:
+    app: noti-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: noti-service
+  template:
+    metadata:
+      labels:
+        app: noti-service  
+    spec:
+      containers:
+        - name: noti-service-container
+          image: thanaphat2005/notification-service
+          imagePullPolicy: Never
+          env:
+            - name: RabbitMQ__Password
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-secret
+                  key: password
+            - name: RabbitMQ__Username
+              valueFrom:
+                secretKeyRef:
+                  name: rabbit-secret
+                  key: username
+          envFrom:
+            - configMapRef:
+                name: noti-service-config
+          ports:
+            - name: web-api
+              containerPort: 80
+              protocol: TCP
+            - name: grpc
+              containerPort: 7777
+              protocol: TCP 
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: noti-service-clusterip
+spec:
+  selector:
+    app: noti-service      
+  ports:
+    - port: 80
+      targetPort: 80
+      name: web
+  type: ClusterIP

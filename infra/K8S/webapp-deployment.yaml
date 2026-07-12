@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-service-deployment
+  labels:
+    app: webapp-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp-service
+  template:
+    metadata:
+      labels:
+        app: webapp-service
+    spec:
+      containers:
+        - name: webapp-service-container
+          image: thanaphat2005/web-app
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: webapp-secret
+                  key: authSecret
+          envFrom:
+            - configMapRef:
+                name: web-app-service-config
+          ports:
+            - name: web-api
+              containerPort: 3000
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-clusterip
+spec:
+  selector:
+    app: webapp-service
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP
