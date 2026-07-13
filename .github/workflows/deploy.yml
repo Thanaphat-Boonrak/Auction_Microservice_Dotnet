@@ -14,6 +14,18 @@ jobs:
         service:
           - name: "thanaphat2005/auction-service"
             path: "src/AuctionService"
+          - name: "thanaphat2005/bids-service"
+            path: "src/BiddingService"
+          - name: "thanaphat2005/gateway-service"
+            path: "src/GatewayService"
+          - name: "thanaphat2005/identity-service"
+            path: "src/IdentityService"
+          - name: "thanaphat2005/notification-service"
+            path: "src/NotificationService"
+          - name: "thanaphat2005/search-service"
+            path: "src/SearchService"
+          - name: "thanaphat2005/web-app"
+            path: "frontend/web-app"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
