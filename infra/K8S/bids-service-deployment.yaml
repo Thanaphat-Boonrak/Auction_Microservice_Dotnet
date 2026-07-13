@@ -17,7 +17,7 @@ spec:
       containers:
         - name: bids-service-container
           image: thanaphat2005/bids-service
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           env:
             - name: ConnectionStrings__BidDbConnection
               valueFrom:
