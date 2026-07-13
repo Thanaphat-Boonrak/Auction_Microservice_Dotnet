@@ -45,4 +45,5 @@ jobs:
           context: .
           file: ${{ matrix.service.path }}/Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: ${{ matrix.service.name }}:latest
