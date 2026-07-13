@@ -5,6 +5,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MongoDB.Driver;
 using MongoDB.Entities;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +17,13 @@ builder.Services.AddMassTransit(config =>
 {
     config.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
     config.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("bidding"));
-    
+
     config.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(builder.Configuration["RabbitMQ:Host"], "/" , h =>
+        cfg.Host(builder.Configuration["RabbitMQ:Host"], "/", h =>
         {
-            h.Username(builder.Configuration.GetValue<string>("RabbitMQ:Username","guest"));
-            h.Password(builder.Configuration.GetValue<string>("RabbitMQ:Password","guest"));
+            h.Username(builder.Configuration.GetValue<string>("RabbitMQ:Username", "guest"));
+            h.Password(builder.Configuration.GetValue<string>("RabbitMQ:Password", "guest"));
         });
         cfg.ConfigureEndpoints(context);
     });
@@ -44,7 +45,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var db = DB.InitAsync("BidDb",MongoClientSettings.FromConnectionString
-    (builder.Configuration.GetConnectionString("BidDbConnection")));
+
+var retryPolicy = Policy.Handle<TimeoutException>().Or<MongoConnectionException>()
+    .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+await retryPolicy.ExecuteAndCaptureAsync(async () =>
+{
+    var db = await DB.InitAsync("BidDb", MongoClientSettings.FromConnectionString
+        (builder.Configuration.GetConnectionString("BidDbConnection")));
+});
 
 app.Run();

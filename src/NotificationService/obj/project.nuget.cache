@@ -1,25 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "BfWcQZW/VnQ=",
+  "dgSpecHash": "eIF0vCuDpfw=",
   "success": true,
   "projectFilePath": "/Users/thanaphatboonrak/Desktop/Christie/src/NotificationService/NotificationService.csproj",
   "expectedPackageFiles": [
     "/Users/thanaphatboonrak/.nuget/packages/masstransit/8.5.10/masstransit.8.5.10.nupkg.sha512",
     "/Users/thanaphatboonrak/.nuget/packages/masstransit.abstractions/8.5.10/masstransit.abstractions.8.5.10.nupkg.sha512",
     "/Users/thanaphatboonrak/.nuget/packages/masstransit.rabbitmq/8.5.10/masstransit.rabbitmq.8.5.10.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.configuration.abstractions/10.0.0/microsoft.extensions.configuration.abstractions.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.0/microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.diagnostics.abstractions/10.0.0/microsoft.extensions.diagnostics.abstractions.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.diagnostics.healthchecks/10.0.0/microsoft.extensions.diagnostics.healthchecks.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.diagnostics.healthchecks.abstractions/10.0.0/microsoft.extensions.diagnostics.healthchecks.abstractions.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.fileproviders.abstractions/10.0.0/microsoft.extensions.fileproviders.abstractions.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.hosting.abstractions/10.0.0/microsoft.extensions.hosting.abstractions.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.logging.abstractions/10.0.0/microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.options/10.0.0/microsoft.extensions.options.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/microsoft.extensions.primitives/10.0.0/microsoft.extensions.primitives.10.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/rabbitmq.client/7.2.1/rabbitmq.client.7.2.1.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/system.io.pipelines/8.0.0/system.io.pipelines.8.0.0.nupkg.sha512",
-    "/Users/thanaphatboonrak/.nuget/packages/system.threading.ratelimiting/8.0.0/system.threading.ratelimiting.8.0.0.nupkg.sha512"
+    "/Users/thanaphatboonrak/.nuget/packages/rabbitmq.client/7.2.1/rabbitmq.client.7.2.1.nupkg.sha512"
   ],
   "logs": []
 }

@@ -141,12 +141,6 @@
 /Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/obj/Debug/net10.0/AuctionService.pdb
 /Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/obj/Debug/net10.0/AuctionService.genruntimeconfig.cache
 /Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/obj/Debug/net10.0/ref/AuctionService.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.Caching.Abstractions.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.Caching.Memory.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.Configuration.Abstractions.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.DependencyInjection.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.Logging.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.Logging.Abstractions.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.Options.dll
-/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Microsoft.Extensions.Primitives.dll
+/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Polly.dll
+/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/bin/Debug/net10.0/Polly.Core.dll
+/Users/thanaphatboonrak/Desktop/Christie/src/AuctionService/obj/Debug/net10.0/AuctionService.sourcelink.json

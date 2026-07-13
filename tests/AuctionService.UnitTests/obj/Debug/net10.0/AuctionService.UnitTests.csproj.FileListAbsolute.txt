@@ -146,3 +146,6 @@
 /Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.UnitTests/bin/Debug/net10.0/Fare.dll
 /Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.UnitTests/bin/Debug/net10.0/Moq.dll
 /Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.UnitTests/bin/Debug/net10.0/runtimes/win/lib/net6.0/System.Diagnostics.EventLog.Messages.dll
+/Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.UnitTests/bin/Debug/net10.0/Polly.dll
+/Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.UnitTests/bin/Debug/net10.0/Polly.Core.dll
+/Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.UnitTests/obj/Debug/net10.0/AuctionService.UnitTests.sourcelink.json

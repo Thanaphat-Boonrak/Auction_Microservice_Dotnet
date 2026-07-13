@@ -460,3 +460,6 @@
 /Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.IntegrationTests/obj/Debug/net10.0/AuctionService.IntegrationTests.pdb
 /Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.IntegrationTests/obj/Debug/net10.0/AuctionService.IntegrationTests.genruntimeconfig.cache
 /Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.IntegrationTests/obj/Debug/net10.0/ref/AuctionService.IntegrationTests.dll
+/Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.IntegrationTests/bin/Debug/net10.0/Polly.dll
+/Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.IntegrationTests/bin/Debug/net10.0/Polly.Core.dll
+/Users/thanaphatboonrak/Desktop/Christie/tests/AuctionService.IntegrationTests/obj/Debug/net10.0/AuctionService.IntegrationTests.sourcelink.json

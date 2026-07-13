@@ -22,12 +22,12 @@ builder.Services.AddMassTransit(config =>
     config.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search"));
     config.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(builder.Configuration["RabbitMQ:Host"],"/", host =>
+        cfg.Host(builder.Configuration["RabbitMQ:Host"], "/", host =>
         {
-            host.Username(builder.Configuration.GetValue<string>("RabbitMQ:Username" ,"guest"));
-            host.Password(builder.Configuration.GetValue<string>("RabbitMQ:Password","guest"));
+            host.Username(builder.Configuration.GetValue<string>("RabbitMQ:Username", "guest"));
+            host.Password(builder.Configuration.GetValue<string>("RabbitMQ:Password", "guest"));
         });
-        
+
         cfg.ReceiveEndpoint("search-auction-created",
             e =>
             {
@@ -47,8 +47,14 @@ app.MapControllers();
 
 
 var connectionString = builder.Configuration.GetConnectionString("MongoDbConnection");
-var db = await DB.InitAsync("SearchDatabase", MongoClientSettings.FromConnectionString(connectionString));
-await DbInitializer.InitDb(app);
+
+var retryPolicy = Policy.Handle<TimeoutException>().Or<MongoConnectionException>()
+    .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+await retryPolicy.ExecuteAndCaptureAsync(async () =>
+{
+    var db = await DB.InitAsync("SearchDatabase", MongoClientSettings.FromConnectionString(connectionString));
+    await DbInitializer.InitDb(app);
+});
 
 app.Run();
 

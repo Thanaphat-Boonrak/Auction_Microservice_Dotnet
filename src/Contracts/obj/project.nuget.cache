@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SDKBJDQ0vEE=",
+  "dgSpecHash": "c22shak0zuY=",
   "success": true,
-  "projectFilePath": "/Users/thanaphatboonrak/Desktop/Christie/src/Contracts/Contracts.csproj",
+  "projectFilePath": "/app/src/Contracts/Contracts.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
