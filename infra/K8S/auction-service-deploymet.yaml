@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: auction-service-container
-          image: thanaphat2005/auction-service
-          imagePullPolicy: Always
+          image: thanaphat2005/auction-service:latest
           env:
             - name: ConnectionStrings__DefaultConnection
               valueFrom:

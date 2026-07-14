@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: gateway-service-container
-          image: thanaphat2005/gateway-service
-          imagePullPolicy: Always
+          image: thanaphat2005/gateway-service:latest
           envFrom:
             - configMapRef:
                 name: gateway-service-config

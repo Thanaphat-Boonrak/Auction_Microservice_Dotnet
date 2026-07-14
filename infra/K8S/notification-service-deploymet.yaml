@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: noti-service-container
-          image: thanaphat2005/notification-service
-          imagePullPolicy: Always
+          image: thanaphat2005/notification-service:latest
           env:
             - name: RabbitMQ__Password
               valueFrom:

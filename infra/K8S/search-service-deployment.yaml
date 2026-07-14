@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: search-service-container
-          image: thanaphat2005/search-service
-          imagePullPolicy: Always
+          image: thanaphat2005/search-service:latest
           env:
             - name: ConnectionStrings__MongoDbConnection
               valueFrom:

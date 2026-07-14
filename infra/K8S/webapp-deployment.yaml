@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: webapp-service-container
-          image: thanaphat2005/web-app
-          imagePullPolicy: Always
+          image: thanaphat2005/web-app:latest
           env:
             - name: AUTH_SECRET
               valueFrom:

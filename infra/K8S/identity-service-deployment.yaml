@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: identity-service-container
-          image: thanaphat2005/identity-service
-          imagePullPolicy: Always
+          image: thanaphat2005/identity-service:latest
           env:
             - name: ConnectionStrings__DefaultConnection
               valueFrom:
