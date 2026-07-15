@@ -3,15 +3,9 @@ kind: Ingress
 metadata:
   name: myingress
 spec:
-  tls:
-    - hosts:
-        - app.thanaphat2005.local
-        - api.thanaphat2005.local
-        - id.thanaphat2005.local
-      secretName: christie-app-tls
   ingressClassName: nginx
   rules:
-    - host: app.thanaphat2005.local
+    - host: app.thanaphat2005.store
       http:
         paths:
           - path: /
@@ -21,7 +15,7 @@ spec:
                 name: webapp-clusterip
                 port:
                   number: 3000
-    - host: api.thanaphat2005.local
+    - host: api.thanaphat2005.store
       http:
         paths:
           - path: /
@@ -31,7 +25,7 @@ spec:
                 name: gateway-service-clusterip
                 port:
                   number: 80
-    - host: id.thanaphat2005.local
+    - host: id.thanaphat2005.store
       http:
         paths:
           - path: /
