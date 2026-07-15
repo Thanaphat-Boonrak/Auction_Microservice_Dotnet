@@ -321,7 +321,7 @@ subjects:
 ---
 apiVersion: v1
 data:
-  use-proxy-protocol: "true"
+  use-proxy-protocol: "false"
 kind: ConfigMap
 metadata:
   labels:
