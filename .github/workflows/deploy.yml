@@ -77,7 +77,7 @@ jobs:
           token: ${{secrets.DIGITALOCEAN_ACCESS_TOKEN}}
           
       - name: Save DigitalOcean kubeconfig
-        run: doctl kubernetes cluster kubeconfig save k8s-1-36-0-do-2-sgp1-1784035478219
+        run: doctl kubernetes cluster kubeconfig save k8s-1-36-0-do-3-syd1-1784387925844
       
       - name: Apply the K8S deployments
         run: kubectl apply -f infra/K8S && kubectl apply -f infra/prod-k8s
