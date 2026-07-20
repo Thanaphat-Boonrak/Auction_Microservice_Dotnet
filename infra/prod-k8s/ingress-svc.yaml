@@ -2,8 +2,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: myingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+         - api.thanaphat2005.store
+         - id.thanaphat2005.store
+         - app.thanaphat2005.store
+      secretName: christie-tls
   rules:
     - host: app.thanaphat2005.store
       http:

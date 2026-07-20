@@ -1701,10 +1701,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kubernetes Deployment" />
-        <option value="Kubernetes Pod" />
         <option value="Kubernetes ConfigMap" />
         <option value="Kubernetes Ingress" />
         <option value="Kubernetes Secret" />
+        <option value="Kubernetes Pod" />
       </list>
     </option>
   </component>
@@ -1823,6 +1823,9 @@
     &quot;DatabaseDriversLRU&quot;: [
       &quot;mongo&quot;,
       &quot;postgresql&quot;
+    ],
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;
     ]
   }
 }</component>
@@ -2066,6 +2069,17 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
