@@ -1,7 +1,12 @@
 import { auth } from "@/auth";
-import { json } from "stream/consumers";
 
-const baseUrl = process.env.API_URL
+const rawBaseUrl = process.env.API_URL || "";
+const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl.slice(0, -1) : rawBaseUrl;
+
+const formatUrl = (path: string) => {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${baseUrl}${cleanPath}`;
+};
 
 const get = async (url: string) => {
   const requestOptions = {
@@ -9,7 +14,7 @@ const get = async (url: string) => {
     headers: await getHeaders(),
   };
 
-  const response = await fetch(baseUrl + url, requestOptions);
+  const response = await fetch(formatUrl(url), requestOptions);
   return handleResponse(response);
 };
 
@@ -20,7 +25,7 @@ const put = async (url: string, body: unknown) => {
     body: JSON.stringify(body),
   };
 
-  const response = await fetch(baseUrl + url, requestOptions);
+  const response = await fetch(formatUrl(url), requestOptions);
   return handleResponse(response);
 };
 
@@ -31,7 +36,7 @@ const post = async (url: string, body: unknown) => {
     body: JSON.stringify(body),
   };
 
-  const response = await fetch(baseUrl + url, requestOptions);
+  const response = await fetch(formatUrl(url), requestOptions);
   return handleResponse(response);
 };
 
@@ -41,7 +46,7 @@ const del = async (url: string) => {
     headers: await getHeaders(),
   };
 
-  const response = await fetch(baseUrl + url, requestOptions);
+  const response = await fetch(formatUrl(url), requestOptions);
   return handleResponse(response);
 };
 
@@ -55,7 +60,7 @@ const handleResponse = async (response: Response) => {
   }
 
   if (response.ok) {
-    return data || { status: response.status, message: response.statusText };
+    return data !== null && data !== undefined ? data : { status: response.status, message: response.statusText };
   } else {
     const error = {
       status: response.status,
@@ -69,7 +74,7 @@ const getHeaders = async (): Promise<Headers> => {
   const session = await auth();
   const headers = new Headers();
   headers.set("Content-type", "application/json");
-  if (session) {
+  if (session && 'accessToken' in session) {
     headers.set("Authorization", `Bearer ${session.accessToken}`);
   }
   return headers;
